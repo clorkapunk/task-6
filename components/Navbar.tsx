@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { memo } from "react";
 
-import { ActiveElement, NavbarProps } from "@/types/type";
+import { ActiveElement } from "@/types/type";
 
 import ActiveUsers from "./users/ActiveUsers";
 
-const Navbar = ({ activeElement }: NavbarProps) => {
+const Navbar = ({ activeElement }: { activeElement: ActiveElement }) => {
   const isActive = (value: string | Array<ActiveElement>) =>
     (activeElement && activeElement.value === value) ||
     (Array.isArray(value) && value.some((val) => val?.value === activeElement?.value));

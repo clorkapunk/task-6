@@ -5,15 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="81a03375-020b-4a2f-9de6-05d30a9310c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/Navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/comments/NewThread.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/comments/NewThread.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/comments/PinnedComposer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/comments/PinnedComposer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/comments/PinnedThread.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/comments/PinnedThread.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/settings/Text.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/settings/Text.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/canvas.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/canvas.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/key-events.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/key-events.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/shapes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/shapes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/useMaxZIndex.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/useMaxZIndex.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/liveblocks.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/liveblocks.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/type.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,21 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Temir\\Desktop\\itansition\\task-6\\figma-clone\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Temir\\Desktop\\itansition\\task-6\\figma-clone\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Temir\Desktop\itansition\task-6\figma-clone\components" />
       <recent name="C:\Users\Temir\Desktop\itansition\task-6\figma-clone" />
       <recent name="C:\Users\Temir\Desktop\itansition\task-6\figma-clone\app" />
     </key>
@@ -73,7 +83,7 @@
       <option name="presentableId" value="Default" />
       <updated>1727077149075</updated>
       <workItem from="1727077151011" duration="1937000" />
-      <workItem from="1727083959121" duration="7816000" />
+      <workItem from="1727083959121" duration="10828000" />
     </task>
     <servers />
   </component>
