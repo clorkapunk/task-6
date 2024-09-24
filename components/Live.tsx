@@ -4,7 +4,13 @@ import React, {useCallback, useEffect, useState} from "react";
 import CursorChat from "@/components/cursor/CursorChat";
 import {CursorMode, CursorState} from "@/types/type";
 
-const Live = () => {
+type Props = {
+    canvasRef: React.MutableRefObject<HTMLCanvasElement | null>,
+    currentPageNumber: number
+
+}
+
+const Live = ({canvasRef, currentPageNumber}: Props) => {
     const others = useOthers();
     const [{cursor}, updateMyPresence] = useMyPresence() as any;
 
@@ -56,6 +62,8 @@ const Live = () => {
         window.addEventListener('keyup', onKeyUp)
         window.addEventListener('keydown', onKeyDown)
 
+
+
         return () => {
             window.removeEventListener('keyup', onKeyUp)
             window.removeEventListener('keydown', onKeyDown)
@@ -64,24 +72,34 @@ const Live = () => {
     }, [updateMyPresence])
 
     return (
-        <div
-            style={{cursor: cursorState.mode === CursorMode.Chat ? 'none' : 'auto'}}
-            onPointerMove={handlePointerMove}
-            onPointerLeave={handlePointerLeave}
-            onPointerDown={handlePointerDown}
-            className={'absolute top-0 left-0 h-[100vh] w-full flex justify-center items-center'}
-        >
-            {
-                cursor &&
-                <CursorChat
-                    cursor={cursor}
-                    cursorState={cursorState}
-                    setCursorState={setCursorState}
-                    updateMyPresence={updateMyPresence}
-                />
-            }
-            <LiveCursors others={others}/>
-        </div>
+        <>
+            <div
+                id='canvas'
+                style={{cursor: cursorState.mode === CursorMode.Chat ? 'none' : 'auto'}}
+                onPointerMove={handlePointerMove}
+                onPointerLeave={handlePointerLeave}
+                onPointerDown={handlePointerDown}
+                className={'relative h-[84vh] w-full flex justify-center items-center'}
+            >
+                <div className={'flex justify-start items-center'}>
+                    <canvas ref={canvasRef} className={'border'}/>
+                </div>
+
+
+                {
+                    cursor &&
+                    <CursorChat
+                        cursor={cursor}
+                        cursorState={cursorState}
+                        setCursorState={setCursorState}
+                        updateMyPresence={updateMyPresence}
+                    />
+                }
+                <LiveCursors others={others.filter(i => i.presence.page === currentPageNumber)}/>
+
+            </div>
+        </>
+
     );
 };
 

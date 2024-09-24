@@ -1,8 +1,7 @@
-import { BaseUserMeta, User } from "@liveblocks/client";
-// import { Gradient, Pattern } from "fabric/fabric-impl";
-import * as fabric from 'fabric'
+import {BaseUserMeta, LiveMap, LiveObject, User} from "@liveblocks/client";
+import { Gradient, Pattern } from "fabric/fabric-impl";
 import React from "react";
-
+import {fabric} from "fabric";
 
 export enum CursorMode {
   Hidden,
@@ -45,7 +44,7 @@ export type ShapeData = {
   type: string;
   width: number;
   height: number;
-  fill: string | fabric.Pattern | fabric.Gradient<any>;
+  fill: string | Pattern | Gradient;
   left: number;
   top: number;
   objectId: string | undefined;
@@ -100,6 +99,8 @@ export type RightSidebarProps = {
   activeObjectRef: React.RefObject<fabric.Object | null>;
   isEditingRef: React.MutableRefObject<boolean>;
   syncShapeInStorage: (obj: any) => void;
+  canvasPages: any;
+  fabricRenderRef: React.RefObject<fabric.Canvas | null>;
 };
 
 export type NavbarProps = {
@@ -128,7 +129,7 @@ export type LiveCursorProps = {
 };
 
 export type CanvasMouseDown = {
-  options: fabric.TEvent;
+  options: fabric.IEvent;
   canvas: fabric.Canvas;
   selectedShapeRef: any;
   isDrawing: React.MutableRefObject<boolean>;
@@ -136,7 +137,7 @@ export type CanvasMouseDown = {
 };
 
 export type CanvasMouseMove = {
-  options: fabric.TEvent;
+  options: fabric.IEvent;
   canvas: fabric.Canvas;
   isDrawing: React.MutableRefObject<boolean>;
   selectedShapeRef: any;
@@ -155,23 +156,23 @@ export type CanvasMouseUp = {
 };
 
 export type CanvasObjectModified = {
-  options: fabric.TEvent;
+  options: fabric.IEvent;
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
 
 export type CanvasPathCreated = {
-  options: (fabric.TEvent & { path: CustomFabricObject<fabric.Path> }) | any;
+  options: (fabric.IEvent & { path: CustomFabricObject<fabric.Path> }) | any;
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
 
 export type CanvasSelectionCreated = {
-  options: fabric.TEvent;
+  options: fabric.IEvent;
   isEditingRef: React.MutableRefObject<boolean>;
   setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
 };
 
 export type CanvasObjectScaling = {
-  options: fabric.TEvent;
+  options: fabric.IEvent;
   setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
 };
 
@@ -190,6 +191,12 @@ export type CursorChatProps = {
       cursor: { x: number; y: number };
       cursorColor: string;
       message: string;
+      page: number
     }>
   ) => void;
 };
+
+export type CanvasPageData = {
+    pageNumber: number;
+    data: LiveMap<string, any>;
+}

@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo} from "react";
 import Avatar from './Avatar'
 import {useOthers, useSelf} from "@liveblocks/react";
 
@@ -22,13 +22,15 @@ const ActiveUsers = () => {
                     />
                 )}
 
-                {users.slice(0, 3).map(({connectionId}) => {
+                {users.slice(0, 3).map((user) => {
+
+
                     return (
                         <Avatar
-                            key={connectionId}
-                            name={generateRandomName()}
+                            key={user.connectionId}
+                            name={`${user.presence.name}`}
                             otherStyles={`-ml-3 bg-black`}
-                            color={COLORS[Number(connectionId) % COLORS.length]}
+                            color={COLORS[Number(user.connectionId) % COLORS.length]}
                         />
                     );
                 })}
