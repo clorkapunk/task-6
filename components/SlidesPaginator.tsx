@@ -57,7 +57,8 @@ const SlidesPaginator = ({
 
     useEffect(() => {
         if (fabricRenderRef.current) setIsReady(true);
-    }, [fabricRenderRef])
+        console.log(`isReady: ${isReady}`)
+    }, [fabricRenderRef.current])
 
     const memorized = useMemo(() => {
         return (<div
