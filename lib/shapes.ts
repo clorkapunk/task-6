@@ -167,7 +167,6 @@ export const bringElement = ({
 }: ElementDirection) => {
   if (!canvas) return;
 
-  console.log('doing')
   // get the selected element. If there is no selected element or there are more than one selected element, return
   const selectedElement = canvas.getActiveObject();
 

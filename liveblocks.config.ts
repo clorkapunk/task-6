@@ -2,9 +2,15 @@ import {LiveMap, createClient, LiveList, LiveObject} from "@liveblocks/client";
 import {createRoomContext} from "@liveblocks/react";
 import {CanvasPageData} from "@/types/type";
 
+// const client = createClient({
+//     throttle: 16,
+//     publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
+// });
+
 const client = createClient({
     throttle: 16,
-    publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
+    // publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
+    authEndpoint: "/api/liveblocks-auth"
 });
 
 // Presence represents the properties that exist on every user in the Room

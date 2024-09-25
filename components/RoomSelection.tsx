@@ -3,21 +3,28 @@ import {Liveblocks, RoomData} from "@liveblocks/node";
 import {Spinner} from "@/components/ui/spinner";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import { toast } from 'react-hot-toast';
+import {toast} from 'react-hot-toast';
+import {useUserStore} from "@/stores/user-store";
+import Image from 'next/image'
 
 
-type Props = {
-    handleCreate: (roomId: string) => void,
-    handleSelect: (id: string) => void,
-}
+type Props = {}
 
-const RoomSelection = ({handleCreate, handleSelect}: Props) => {
-    const liveblocks = new Liveblocks({
-        secret: process.env.NEXT_PUBLIC_LIVEBLOCKS_SECRET_KEY!
-    })
+const liveblocks = new Liveblocks({
+    secret: process.env.NEXT_PUBLIC_LIVEBLOCKS_SECRET_KEY!
+})
+
+const RoomSelection = ({}: Props) => {
+
+
+    const enterRoom = useUserStore((store) => store.enterRoom)
+    const createRoom = useUserStore((store) => store.createRoom)
+    const deleteRoom = useUserStore((store) => store.deleteRoom)
+    const rooms = useUserStore((store) => store.rooms)
+    const getRooms = useUserStore((store) => store.getRooms)
+
 
     const [isFetching, setIsFetching] = useState<boolean>(false)
-    const [rooms, setRooms] = useState<RoomData[]>([]);
     const [id, setId] = useState('')
 
     const validateRoomId = (): boolean => {
@@ -25,20 +32,7 @@ const RoomSelection = ({handleCreate, handleSelect}: Props) => {
     }
 
     useEffect(() => {
-
-        async function getRooms() {
-            setIsFetching(true)
-            const {data} = await liveblocks.getRooms()
-            return data
-        }
-
-        if (!isFetching) getRooms().then(data => {
-            setRooms(data)
-            setIsFetching(false)
-        })
-            .catch(e => {
-                toast.error("Error getting rooms")
-            })
+        getRooms()
     }, [])
 
 
@@ -54,14 +48,30 @@ const RoomSelection = ({handleCreate, handleSelect}: Props) => {
                             {
                                 rooms.map(i => (
                                     <div
-                                        onClick={() => handleSelect(i.id)}
+                                        onClick={() => enterRoom(i.id)}
                                         key={i.id}
                                         className={`
-                                        border rounded w-[200px] h-[100px] flex justify-center items-center
-                                        cursor-pointer text-primary-grey-300 bg-primary-grey-200 
-                                        hover:bg-primary-green hover:border-none hover:text-primary-black
-                                     `}
+                                            relative border rounded w-[200px] h-[100px] flex justify-center items-center
+                                            cursor-pointer text-primary-grey-300 bg-primary-grey-200 overflow-hidden
+                                            hover:bg-primary-green hover:border-none hover:text-primary-black
+                                         `}
                                     >
+                                        <Button
+                                            className={'absolute top-0 right-0 rounded-none hover:border border-red-500 px-2'}
+                                            onClick={e => {
+                                                e.stopPropagation()
+                                                deleteRoom(i.id)
+                                            }}
+                                        >
+                                            <Image
+                                                style={{filter: 'invert(0.9)'}}
+                                                className={'p-0'}
+                                                height={20}
+                                                width={20}
+                                                src={'/assets/delete.svg'}
+                                                alt={'delete'}
+                                            />
+                                        </Button>
                                         <p>{i.id}</p>
                                     </div>
                                 ))
@@ -85,11 +95,11 @@ const RoomSelection = ({handleCreate, handleSelect}: Props) => {
                                 <Button
                                     className={'text-primary-green border-2 border-primary-green hover:bg-primary-green hover:text-primary-black w-full'}
                                     onClick={() => {
-                                        if(!validateRoomId()) {
+                                        if (!validateRoomId()) {
                                             toast.error("Room ID already exists!")
                                             return;
                                         }
-                                        handleCreate(id)
+                                        createRoom(id)
                                     }}
                                 >
                                     Create room

@@ -3,6 +3,7 @@ import {CanvasPageData} from "@/types/type";
 import {renderCanvas} from "@/lib/canvas";
 import {fabric} from "fabric";
 import Image from "next/image";
+import {useSelf} from "@/liveblocks.config";
 
 type Props = {
     handlePageChange: (page: number) => void;
@@ -21,6 +22,7 @@ const renderCanvasPage = ({page, fabricRef, activeObjectRef}: {
 }): string => {
     const canvas = document.querySelector("canvas");
     const canvasToRender: HTMLCanvasElement | null = document.querySelector("#renderCanvas");
+
 
     if (!canvas) {
         console.log('no canvas element')
@@ -53,11 +55,10 @@ const SlidesPaginator = ({
 
     const [isReady, setIsReady] = useState(false);
 
-
+    const self = useSelf()
 
     useEffect(() => {
         if (fabricRenderRef.current) setIsReady(true);
-        console.log(`isReady: ${isReady}`)
     }, [fabricRenderRef.current])
 
     const memorized = useMemo(() => {
@@ -143,6 +144,7 @@ const SlidesPaginator = ({
                 })
             }
             {
+                self.canWrite &&
                 <div
                     className={
                         `h-[70px] aspect-video border border-white bg-transparent 
@@ -160,7 +162,7 @@ const SlidesPaginator = ({
                 </div>
             }
         </div>)
-    }, [canvasPages, currentPageNumber, fabricRenderRef, isReady])
+    }, [canvasPages, currentPageNumber, fabricRenderRef, isReady, self])
 
     return memorized;
 };

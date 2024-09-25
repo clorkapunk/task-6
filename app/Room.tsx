@@ -9,29 +9,37 @@ import {
 import {LiveList, LiveMap, LiveObject} from "@liveblocks/client";
 import Loader from "@/components/Loader";
 import {CanvasPageData} from "@/types/type";
-import InputForm from "@/components/InputForm";
+import LoginForm from "@/components/LoginForm";
 import RoomSelection from "@/components/RoomSelection";
 import {Spinner} from "@/components/ui/spinner";
+import {useUserStore} from "@/stores/user-store";
 
 
 export function Room({children}: { children: ReactNode }) {
 
-    const [isFetching, setIsFetching] = useState(true);
-    const [isRegistered, setIsRegistered] = useState(false)
-    const [name, setName] = useState('')
 
-    const [isRoomSelected, setIsRoomSelected] = useState(false)
-    const [id, setId] = useState('');
+    const [isFetching, setIsFetching] = useState(true);
+    const isAuth = useUserStore((store) => store.isAuth)
+    const isRoomSelected = useUserStore((store) => store.isRoomSelected)
+    const setUsername = useUserStore((store) => store.setUsername)
+    const enterRoom = useUserStore((store) => store.enterRoom)
+    const roomId = useUserStore((store) => store.roomId)
+    const username = useUserStore((store) => store.username)
+    const auth = useUserStore((store) => store.auth )
+
+
 
     useEffect(() => {
-        if (window) {
-            setIsRegistered(!!sessionStorage.getItem("username"))
-            setIsRoomSelected(!!sessionStorage.getItem("room-id"))
-            setName(sessionStorage.getItem("username") || '')
-            setId(sessionStorage.getItem("room-id") || "")
-            setIsFetching(false)
-        }
+        enterRoom(sessionStorage.getItem('room-id'))
+        setUsername(sessionStorage.getItem("username"))
+        setIsFetching(false)
     }, [])
+
+    useEffect(() => {
+        if(isRoomSelected && isAuth){
+            // auth(true)
+        }
+    }, []);
 
     if (isFetching) {
         return <div className={'h-screen flex justify-center items-center'}>
@@ -39,44 +47,48 @@ export function Room({children}: { children: ReactNode }) {
         </div>
     }
 
-    if (!isRegistered) {
-        return <InputForm
-            label={'Write your username'}
-            handleChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-            buttonLabel={'Continue'}
-            value={name}
-            onSubmit={() => {
-                if (name === '') return
-                sessionStorage.setItem('username', name)
-                setIsRegistered(true)
-            }}
-        />
+    if (!isAuth) {
+        return <LoginForm/>
     }
 
     if (!isRoomSelected) {
-        return <RoomSelection
-            handleCreate={(roomId: string) => {
-                setId(roomId)
-                sessionStorage.setItem('room-id', roomId)
-                setIsRoomSelected(true)
-            }}
-            handleSelect={(id: string) => {
-                setId(id)
-                sessionStorage.setItem('room-id', id)
-                setIsRoomSelected(true)
-            }}
-        />
+        return <RoomSelection/>
     }
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+
+
+    // async function auth() {
+    //     const headers = {
+    //         "Content-Type": "application/json",
+    //     };
+    //
+    //     const body = JSON.stringify({
+    //         roomId,
+    //         userId: username
+    //     });
+    //
+    //     const response = await fetch("/api/liveblocks-auth", {
+    //         method: "POST",
+    //         headers,
+    //         body,
+    //     });
+    //
+    //     const data = await response.json()
+    //
+    //     return data
+    // }
 
 
     return (
         <>
             <LiveblocksProvider
-                publicApiKey={process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!}>
+                authEndpoint={() => auth(false)}
+            >
                 <RoomProvider
-                    id={id}
+                    id={roomId}
                     initialPresence={{
-                        name: name,
+                        name: username,
                         cursor: null,
                         cursorColor: null,
                         editingText: null,

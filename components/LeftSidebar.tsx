@@ -3,11 +3,14 @@
 import {useMemo} from "react";
 import Image from "next/image";
 import {getShapeInfo} from "@/lib/utils";
+import {useSelf} from "@/liveblocks.config";
 
 const LeftSidebar = ({allShapes, handleShapeZIndexChange}: {
     allShapes: Array<any>,
     handleShapeZIndexChange: (object: any, direction: string) => void
 }) => {
+    const self = useSelf()
+
     const memoizedShapes = useMemo(
         () => (
             <section
@@ -32,32 +35,35 @@ const LeftSidebar = ({allShapes, handleShapeZIndexChange}: {
                                     />
                                     <h3 className='text-sm font-semibold capitalize'>{info.name}</h3>
                                 </div>
+                                {
+                                    self.canWrite &&
+                                    <div className={'flex gap-1'}>
+                                        <div
+                                            className={'hover:bg-primary-grey-200 p-1 rounded px-2'}
+                                            onClick={() => handleShapeZIndexChange(shape[0], 'up')}>
+                                            <Image
+                                                className={'-rotate-90'}
+                                                src={'/assets/play.svg'}
+                                                width={12}
+                                                height={12}
+                                                alt={'top'}
+                                            />
+                                        </div>
 
-                                <div className={'flex gap-1'}>
-                                    <div
-                                        className={'hover:bg-primary-grey-200 p-1 rounded px-2'}
-                                        onClick={() => handleShapeZIndexChange(shape[0], 'up')}>
-                                        <Image
-                                            className={'-rotate-90'}
-                                            src={'/assets/play.svg'}
-                                            width={12}
-                                            height={12}
-                                            alt={'top'}
-                                        />
+                                        <div
+                                            className={'hover:bg-primary-grey-200 p-1 rounded px-2'}
+                                            onClick={() => handleShapeZIndexChange(shape[0], 'down')}>
+                                            <Image
+                                                className={'rotate-90'}
+                                                src={'/assets/play.svg'}
+                                                width={12}
+                                                height={12}
+                                                alt={'top'}
+                                            />
+                                        </div>
                                     </div>
+                                }
 
-                                    <div
-                                        className={'hover:bg-primary-grey-200 p-1 rounded px-2'}
-                                        onClick={() => handleShapeZIndexChange(shape[0], 'down')}>
-                                        <Image
-                                            className={'rotate-90'}
-                                            src={'/assets/play.svg'}
-                                            width={12}
-                                            height={12}
-                                            alt={'top'}
-                                        />
-                                    </div>
-                                </div>
 
                             </div>
                         );
@@ -65,7 +71,7 @@ const LeftSidebar = ({allShapes, handleShapeZIndexChange}: {
                 </div>
             </section>
         ),
-        [allShapes]
+        [allShapes, self]
     );
 
     return memoizedShapes;
