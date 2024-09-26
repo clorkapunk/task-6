@@ -75,61 +75,60 @@ const SlidesPaginator = ({
 
             {
                 canvasPages?.map((page: CanvasPageData) => {
-                    if (isReady) {
-                        return (
-                            <div key={page.pageNumber}
-                                 className={`
+                    return (
+                        <div key={page.pageNumber}
+                             className={`
                                     relative rounded 
                                     cursor-pointer group z-10 flex flex-col
                                 `}
-                                 onClick={() => handlePageChange(page.pageNumber)}
-                            >
-                                <div className={'flex justify-between items-center mb-1'}>
-                                    <p className={'text-gray-500 text-xs'}>
-                                        Page {page.pageNumber}
-                                    </p>
-                                    {
-                                        canvasPages.length > 1 &&
-                                        <Button
-                                            className={`
+                             onClick={() => handlePageChange(page.pageNumber)}
+                        >
+                            <div className={'flex justify-between items-center mb-1'}>
+                                <p className={'text-gray-500 text-xs'}>
+                                    Page {page.pageNumber}
+                                </p>
+                                {
+                                    canvasPages.length > 1 &&
+                                    <Button
+                                        className={`
                                             py-0 px-2 h-fit font-bold text-primary-grey-300 
                                             bg-primary-black hover:text-primary-black hover:bg-red-900
                                             `}
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                handlePageDelete(page.pageNumber)
-                                            }}
-                                        >
-                                            -
-                                        </Button>
-                                    }
-                                </div>
-
-
-                                <Image
-                                    height={0}
-                                    width={0}
-                                    className={`
-                                        w-full h-[70px] bg-white border-primary-green rounded 
-                                        ${currentPageNumber === page.pageNumber && " border-2 "}
-                                    `}
-                                    src={renderCanvasPage({page, fabricRef: fabricRenderRef, activeObjectRef})}
-                                    alt={`${page.pageNumber} page`}
-                                />
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            handlePageDelete(page.pageNumber)
+                                        }}
+                                    >
+                                        -
+                                    </Button>
+                                }
                             </div>
-                        )
-                    } else {
-                        return (
-                            <div
-                                key={page.pageNumber}
-                                className={`
-                                    relative aspect-video h-full bg-teal-50 rounded cursor-pointer
-                                    ${currentPageNumber === page.pageNumber && " border-2 border-primary-green "}
-                                `}
-                                onClick={() => handlePageChange(page.pageNumber)}
-                            />
-                        )
-                    }
+
+                            {
+                                isReady ?
+                                    <Image
+                                        height={0}
+                                        width={0}
+                                        className={`
+                                            w-full h-[70px] bg-white border-primary-green rounded 
+                                            ${currentPageNumber === page.pageNumber && " border-2 "}
+                                        `}
+                                        src={renderCanvasPage({page, fabricRef: fabricRenderRef, activeObjectRef})}
+                                        alt={`${page.pageNumber} page`}
+                                    />
+                                    :
+                                    <div
+                                        key={page.pageNumber}
+                                        className={`
+                                            relative aspect-video h-[70px] bg-teal-50 rounded cursor-pointer
+                                            ${currentPageNumber === page.pageNumber && " border-2 border-primary-green "}
+                                        `}
+                                        onClick={() => handlePageChange(page.pageNumber)}
+                                    />
+                            }
+
+                        </div>
+                    )
                 })
             }
             {
