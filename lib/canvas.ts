@@ -27,11 +27,13 @@ export const initializeFabric = ({
 
     const canvasElement = document.getElementById("canvas");
 
+    console.log(canvasElement?.clientWidth)
     // create fabric canvas
     const canvas = new fabric.Canvas(canvasRef.current, {
-        width: (canvasElement?.clientWidth! - 150),
-        height: (canvasElement?.clientWidth! - 150) * (9 / 16),
-        backgroundColor: '#FFFFFF'
+        width: (canvasElement?.clientWidth!),
+        height: (canvasElement?.clientWidth!) * (9 / 16),
+        backgroundColor: 'white',
+
     });
 
 

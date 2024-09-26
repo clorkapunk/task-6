@@ -23,7 +23,7 @@ export type UserStore = {
     authCheck: () => Promise<boolean>;
     enterRoom: (roomId: string | null) => void;
     leaveRoom: () => void;
-    createRoom: (roomId: string) => void;
+    createRoom: (roomId: string) => Promise<any>;
     deleteRoom: (roomId: string) => void;
     getUserDetails: () => void;
     getRoomCreatorId: () => Promise<string>;
@@ -156,31 +156,34 @@ export const useUserStore = create<UserStore>((set, getState) => ({
         }))
     },
     createRoom: (roomId: string) => {
-        const username = getState().username
-        if (!roomId || !username) {
-            return new Error("Room id and username must be provided");
-        }
+        return new Promise((resolve, reject) => {
+            const username = getState().username
+            if (!roomId || !username) {
+                return new Error("Room id and username must be provided");
+            }
 
-        async function createRoomCall() {
-            return await liveblocks.createRoom(roomId, {
-                defaultAccesses: ["room:write"],
-                metadata: {
-                    creator: username
-                },
-                usersAccesses: {
-                    [username]: ["room:write"]
-                }
-            })
-        }
+            async function createRoomCall() {
+                return await liveblocks.createRoom(roomId, {
+                    defaultAccesses: ["room:write"],
+                    metadata: {
+                        creator: username
+                    },
+                    usersAccesses: {
+                        [username]: ["room:write"]
+                    }
+                })
+            }
 
-        createRoomCall()
-            .then((room) => {
-                getState().getRooms()
-                // getState().enterRoom(room.id)
-            })
-            .catch(e => {
-                console.log(e)
-            })
+            createRoomCall()
+                .then((room) => {
+                    resolve('')
+                    getState().getRooms()
+                })
+                .catch(e => {
+                   reject(e)
+                })
+        })
+
 
     },
     deleteRoom: (roomId: string) => {

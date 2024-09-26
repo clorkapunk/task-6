@@ -4,6 +4,7 @@ import {renderCanvas} from "@/lib/canvas";
 import {fabric} from "fabric";
 import Image from "next/image";
 import {useSelf} from "@/liveblocks.config";
+import {Button} from "@/components/ui/button";
 
 type Props = {
     handlePageChange: (page: number) => void;
@@ -63,11 +64,10 @@ const SlidesPaginator = ({
 
     const memorized = useMemo(() => {
         return (<div
-            className={`h-[100px] flex flex-row items-end gap-3 mb-2 absolute bottom-0 right-1/2 translate-x-1/2 rounded `}
+            className={`flex flex-col h-full w-[150px] flex-shrink-0 gap-2 rounded`}
             style={{
-                width: '70%',
-                overflowX: 'scroll',
-                overflowY: 'hidden',
+                overflowY: 'scroll',
+                overflowX: 'hidden',
                 scrollbarWidth: "thin",
                 scrollbarColor: "#14181F transparent"
             }}
@@ -79,44 +79,33 @@ const SlidesPaginator = ({
                         return (
                             <div key={page.pageNumber}
                                  className={`
-                                    overflow-visible
-                                    relative h-[70px] aspect-video rounded 
-                                    cursor-pointer group z-10
+                                    relative rounded 
+                                    cursor-pointer group z-10 flex flex-col
                                 `}
                                  onClick={() => handlePageChange(page.pageNumber)}
                             >
-                                <div className={'absolute bottom-full text-gray-500 text-xs'}>
-                                    Page {page.pageNumber}
-                                </div>
-                                {
-                                    canvasPages.length > 1 &&
-                                    <div
-                                        className={`
-                                        justify-end items-start hidden absolute 
-                                        w-full bg-transparent group-hover:flex p-1
-                                    `}
-                                    >
-                                        <div
-                                            className={'hover:border-primary-black border p-1 rounded'}
+                                <div className={'flex justify-between items-center mb-1'}>
+                                    <p className={'text-gray-500 text-xs'}>
+                                        Page {page.pageNumber}
+                                    </p>
+                                    {
+                                        canvasPages.length > 1 &&
+                                        <Button
+                                            className={`
+                                            py-0 px-2 h-fit font-bold text-primary-grey-300 
+                                            bg-primary-black hover:text-primary-black hover:bg-red-900
+                                            `}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                handlePageDelete(page.pageNumber)
+                                            }}
                                         >
-                                            <Image
-                                                style={{
-                                                    filter: "invert(0.9)"
-                                                }}
-                                                width={20}
-                                                height={20}
-                                                objectFit={'cover'}
-                                                src={'/assets/delete.svg'}
-                                                alt={"delete"}
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    handlePageDelete(page.pageNumber)
-                                                }}
-                                            />
-                                        </div>
+                                            -
+                                        </Button>
+                                    }
+                                </div>
 
-                                    </div>
-                                }
+
                                 <Image
                                     height={0}
                                     width={0}
@@ -147,7 +136,7 @@ const SlidesPaginator = ({
                 self.canWrite &&
                 <div
                     className={
-                        `h-[70px] aspect-video border border-white bg-transparent 
+                        `h-[70px] mt-2 aspect-video border border-white bg-transparent 
                         rounded flex justify-center items-center cursor-pointer`
                     }
                     onClick={() => handlePageAdd()}
@@ -162,7 +151,7 @@ const SlidesPaginator = ({
                 </div>
             }
         </div>)
-    }, [canvasPages, currentPageNumber, fabricRenderRef, isReady, self])
+    }, [canvasPages, currentPageNumber, fabricRenderRef, isReady, self.canWrite])
 
     return memorized;
 };

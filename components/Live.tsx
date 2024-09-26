@@ -38,15 +38,14 @@ const Live = ({canvasRef, currentPageNumber}: Props) => {
 
     useEffect(() => {
         const onKeyUp = (e: KeyboardEvent) => {
-            if(e.key === "/"){
+            if (e.key === "/") {
                 document.body.style.cursor = 'none'
                 setCursorState({
                     mode: CursorMode.Chat,
                     previousMessage: null,
                     message: ''
                 })
-            }
-            else if(e.key === 'Escape'){
+            } else if (e.key === 'Escape') {
                 document.body.style.cursor = 'auto'
                 updateMyPresence({message: ''})
                 setCursorState({mode: CursorMode.Hidden})
@@ -54,14 +53,13 @@ const Live = ({canvasRef, currentPageNumber}: Props) => {
         }
 
         const onKeyDown = (e: KeyboardEvent) => {
-            if(e.key === "/"){
+            if (e.key === "/") {
                 e.preventDefault();
             }
         }
 
         window.addEventListener('keyup', onKeyUp)
         window.addEventListener('keydown', onKeyDown)
-
 
 
         return () => {
@@ -79,10 +77,12 @@ const Live = ({canvasRef, currentPageNumber}: Props) => {
                 onPointerMove={handlePointerMove}
                 onPointerLeave={handlePointerLeave}
                 onPointerDown={handlePointerDown}
-                className={'relative h-[84vh] w-full flex justify-center items-center'}
+                className={'relative w-full h-full flex justify-center items-center'}
             >
-                <div className={'flex justify-start items-center'}>
-                    <canvas ref={canvasRef} className={'border'}/>
+
+                <div className={'w-full h-full flex justify-center items-center'}>
+                    <canvas ref={canvasRef} className={'border w-full'}/>
+
                 </div>
 
 

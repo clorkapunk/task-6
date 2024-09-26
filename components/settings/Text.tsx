@@ -41,7 +41,6 @@ const Text = ({
 }: TextProps) => (
   <div className='flex flex-col gap-3 border-b border-primary-grey-200 px-5 py-3'>
     <h3 className='text-[10px] uppercase'>Text</h3>
-
     <div className='flex flex-col gap-3'>
       {RenderSelect({
         config: selectConfigs[0],

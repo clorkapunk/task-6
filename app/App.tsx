@@ -21,14 +21,12 @@ import {handleImageUpload} from "@/lib/shapes";
 import SlidesPaginator from "@/components/SlidesPaginator";
 import {LiveMap, LiveObject} from "@liveblocks/client";
 import {useClient} from "@liveblocks/react";
-import {useUserStore} from "@/stores/user-store";
 
 export default function Page() {
     const undo = useUndo();
     const redo = useRedo();
 
     const self = useSelf()
-    const client = useClient()
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasToRenderRef = useRef<HTMLCanvasElement>(null);
@@ -312,54 +310,73 @@ export default function Page() {
 
 
     return (
-        <main className="h-screen overflow-hidden">
-            <Navbar
-                activeElement={activeElement}
-                handleActiveElement={handleActiveElement}
-                imageInputRef={imageInputRef}
-                handleImageUpload={(e: any) => {
-                    e.stopPropagation()
-                    handleImageUpload({
-                        file: e.target.files[0],
-                        canvas: fabricRef as any,
-                        shapeRef,
-                        syncShapeInStorage
-                    })
-                }}
+        <main className={"h-screen overflow-hidden"}>
+
+            <div className="h-full flex flex-col">
+
+                <Navbar
+                    activeElement={activeElement}
+                    handleActiveElement={handleActiveElement}
+                    imageInputRef={imageInputRef}
+                    handleImageUpload={(e: any) => {
+                        e.stopPropagation()
+                        handleImageUpload({
+                            file: e.target.files[0],
+                            canvas: fabricRef as any,
+                            shapeRef,
+                            syncShapeInStorage
+                        })
+                    }}
+                />
+
+
+                <section className='flex flex-row  h-[94vh]'>
+
+                    <LeftSidebar
+                        allShapes={Array.from(canvasObjects || [])}
+                        handleShapeZIndexChange={moveObjectByZAxis}
+                    />
+
+                    <div className={'w-full  flex gap-4 justify-between py-4 px-6'}>
+                        <Live canvasRef={canvasRef} currentPageNumber={page}/>
+
+                        <SlidesPaginator
+                            handlePageAdd={() => addPage()}
+                            canvasPages={canvasPages}
+                            handlePageChange={handlePageChange}
+                            currentPageNumber={page}
+                            fabricRenderRef={fabricRenderRef}
+                            activeObjectRef={activeObjectRef}
+                            handlePageDelete={deletePage}
+                        />
+
+                    </div>
+
+
+
+
+                    <RightSidebar
+                        canvasPages={canvasPages}
+                        elementAttributes={elementAttributes}
+                        setElementAttributes={setElementAttributes}
+                        fabricRef={fabricRef}
+                        isEditingRef={isEditingRef}
+                        activeObjectRef={activeObjectRef}
+                        syncShapeInStorage={syncShapeInStorage}
+                        fabricRenderRef={fabricRenderRef}
+                    />
+
+
+                </section>
+
+
+            </div>
+
+            <canvas
+                id={'renderCanvas'}
+                ref={canvasToRenderRef}
+                className={'absolute opacity-0 right-full hidden -z-20'}
             />
-            <section className='flex h-full flex-row'>
-                <LeftSidebar
-                    allShapes={Array.from(canvasObjects || [])}
-                    handleShapeZIndexChange={moveObjectByZAxis}
-                />
-                <Live canvasRef={canvasRef} currentPageNumber={page}/>
-                <RightSidebar
-                    canvasPages={canvasPages}
-                    elementAttributes={elementAttributes}
-                    setElementAttributes={setElementAttributes}
-                    fabricRef={fabricRef}
-                    isEditingRef={isEditingRef}
-                    activeObjectRef={activeObjectRef}
-                    syncShapeInStorage={syncShapeInStorage}
-                    fabricRenderRef={fabricRenderRef}
-                />
-
-                <SlidesPaginator
-                    handlePageAdd={() => addPage()}
-                    canvasPages={canvasPages}
-                    handlePageChange={handlePageChange}
-                    currentPageNumber={page}
-                    fabricRenderRef={fabricRenderRef}
-                    activeObjectRef={activeObjectRef}
-                    handlePageDelete={deletePage}
-                />
-
-
-            </section>
-
-
-            <canvas id={'renderCanvas'} ref={canvasToRenderRef} className={'absolute opacity-0 hidden -z-20'}/>
-
         </main>
     );
 }

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {useUserStore} from "@/stores/user-store";
+import {useOthers} from "@/liveblocks.config";
 
 function objectToArray(obj: object) {
     return Object.entries(obj).map(([key, value]) => ({key, value}));
@@ -20,17 +21,16 @@ const UsersPermissionDialog = ({isOpen, setOpen}: { isOpen: boolean, setOpen: Di
     const updateRoomPermissions = useUserStore((store) => store.updateRoomPermissions)
     const [update, setUpdate] = useState(false)
 
+
     useEffect(() => {
         getRoomPermission()
             .then(data => {
                 setUsersPermission(objectToArray(data))
-                console.log(data)
-
             })
             .catch(e => {
                 console.log(e)
             })
-    }, [getRoomPermission, update]);
+    }, [isOpen, update]);
 
 
     return (
@@ -65,16 +65,6 @@ const UsersPermissionDialog = ({isOpen, setOpen}: { isOpen: boolean, setOpen: Di
                         ))
                     }
                 </div>
-
-                <DialogFooter>
-                    <Button
-                        className={`
-                            border-2 border-primary-green text-primary-green bg-transparent
-                            hover:text-primary-black hover:bg-primary-green
-                        `}>
-                        Save changes
-                    </Button>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
 

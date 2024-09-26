@@ -30,49 +30,44 @@ const Navbar = ({activeElement, imageInputRef, handleImageUpload, handleActiveEl
             .then(id => {
                 setRoomCreatorId(id)
             })
-            .catch(e  => {
+            .catch(e => {
                 console.log(e)
             })
     }, []);
 
     return (
-        <>
-            <nav className="flex select-none items-center justify-between gap-4 bg-primary-black px-5 text-white">
-                <Image src="/assets/logo.svg" alt="FigPro Logo" width={58} height={20}/>
 
-                <ul className="flex flex-row">
-                    {self.canWrite && navElements.map((item: ActiveElement | any) => (
-                        <li
-                            key={item.name}
-                            onClick={() => {
-                                if (Array.isArray(item.value)) return;
-                                handleActiveElement(item);
-                            }}
-                            className={`group px-2.5 py-5 flex justify-center items-center
+        <nav
+            style={{
+                display: "flex",
+                flex: '0 0 auto'
+            }}
+            className="flex  select-none items-center justify-between gap-4 bg-primary-black px-5 text-white">
+            <Image src="/assets/logo.svg" alt="FigPro Logo" width={58} height={20}/>
+
+            <ul className="flex flex-row">
+                {self.canWrite && navElements.map((item: ActiveElement | any) => (
+                    <li
+                        key={item.name}
+                        onClick={() => {
+                            if (Array.isArray(item.value)) return;
+                            handleActiveElement(item);
+                        }}
+                        className={`group px-2.5 py-5 flex justify-center items-center
             ${isActive(item.value) ? "bg-primary-green" : "hover:bg-primary-grey-200"}
             `}
-                        >
+                    >
 
-                            {Array.isArray(item.value) ? (
-                                <ShapesMenu
-                                    item={item}
-                                    activeElement={activeElement}
-                                    imageInputRef={imageInputRef}
-                                    handleActiveElement={handleActiveElement}
-                                    handleImageUpload={handleImageUpload}
-                                />
-                            ) : item?.value === "comments" ? (
-                                <NewThread>
-                                    <Button className="relative w-5 h-5 object-contain">
-                                        <Image
-                                            src={item.icon}
-                                            alt={item.name}
-                                            fill
-                                            className={isActive(item.value) ? "invert" : ""}
-                                        />
-                                    </Button>
-                                </NewThread>
-                            ) : (
+                        {Array.isArray(item.value) ? (
+                            <ShapesMenu
+                                item={item}
+                                activeElement={activeElement}
+                                imageInputRef={imageInputRef}
+                                handleActiveElement={handleActiveElement}
+                                handleImageUpload={handleImageUpload}
+                            />
+                        ) : item?.value === "comments" ? (
+                            <NewThread>
                                 <Button className="relative w-5 h-5 object-contain">
                                     <Image
                                         src={item.icon}
@@ -81,49 +76,58 @@ const Navbar = ({activeElement, imageInputRef, handleImageUpload, handleActiveEl
                                         className={isActive(item.value) ? "invert" : ""}
                                     />
                                 </Button>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-
-                <div className={'flex flex-row items-center justify-center h-full gap-3'}>
-                    <ActiveUsers/>
-
-                    <div className={'flex '}>
-                        {
-                            self.id === roomCreatorId &&
-                            <Button
-                                className={'h-[60px] hover:bg-primary-grey-200 rounded-none'}
-                                onClick={() => setIsOpenSettings(true)}
-                            >
+                            </NewThread>
+                        ) : (
+                            <Button className="relative w-5 h-5 object-contain">
                                 <Image
-                                    src={'/assets/users-gear.svg'}
-                                    alt={'settings'}
-                                    width={20}
-                                    height={20}
+                                    src={item.icon}
+                                    alt={item.name}
+                                    fill
+                                    className={isActive(item.value) ? "invert" : ""}
                                 />
                             </Button>
-                        }
+                        )}
+                    </li>
+                ))}
+            </ul>
+
+            <div className={'flex flex-row items-center justify-center h-full gap-3'}>
+                <ActiveUsers/>
+
+                <div className={'flex '}>
+                    {
+                        self.id === roomCreatorId &&
                         <Button
                             className={'h-[60px] hover:bg-primary-grey-200 rounded-none'}
-                            onClick={() => leaveRoom()}
+                            onClick={() => setIsOpenSettings(true)}
                         >
                             <Image
-                                src={'/assets/leave.svg'}
-                                alt={'exit'}
+                                src={'/assets/users-gear.svg'}
+                                alt={'settings'}
                                 width={20}
                                 height={20}
                             />
                         </Button>
-                    </div>
-
+                    }
+                    <Button
+                        className={'h-[60px] hover:bg-primary-grey-200 rounded-none'}
+                        onClick={() => leaveRoom()}
+                    >
+                        <Image
+                            src={'/assets/leave.svg'}
+                            alt={'exit'}
+                            width={20}
+                            height={20}
+                        />
+                    </Button>
                 </div>
 
-
-            </nav>
+            </div>
 
             <UsersPermissionDialog isOpen={isOpenSettings} setOpen={setIsOpenSettings}/>
-        </>
+
+        </nav>
+
 
     );
 };

@@ -35,11 +35,6 @@ export function Room({children}: { children: ReactNode }) {
         setIsFetching(false)
     }, [])
 
-    useEffect(() => {
-        if(isRoomSelected && isAuth){
-            // auth(true)
-        }
-    }, []);
 
     if (isFetching) {
         return <div className={'h-screen flex justify-center items-center'}>
@@ -55,35 +50,13 @@ export function Room({children}: { children: ReactNode }) {
         return <RoomSelection/>
     }
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-
-
-    // async function auth() {
-    //     const headers = {
-    //         "Content-Type": "application/json",
-    //     };
-    //
-    //     const body = JSON.stringify({
-    //         roomId,
-    //         userId: username
-    //     });
-    //
-    //     const response = await fetch("/api/liveblocks-auth", {
-    //         method: "POST",
-    //         headers,
-    //         body,
-    //     });
-    //
-    //     const data = await response.json()
-    //
-    //     return data
-    // }
 
 
     return (
         <>
             <LiveblocksProvider
                 authEndpoint={() => auth(false)}
+
             >
                 <RoomProvider
                     id={roomId}
